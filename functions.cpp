@@ -5,7 +5,6 @@
 
 void readCenterCoordinates(list <Annotation>::iterator itList, list <Annotation> annotations) {
 
-  // itList = annotations.begin();
   for(itList = annotations.begin(); itList != annotations.end(); itList++) {
     cout<<"Track ID "<<(*itList).getTrackId()<<" center coordinates are: ("<<(*itList).getCenterX()<<" , "<<(*itList).getCenterY()<<")"<<endl;
   }
@@ -26,6 +25,28 @@ int speedMeasurement(list <Annotation>::iterator itList, list <Annotation> annot
     }
   }
   return speed;
+}
+
+//-----------------------------------------------------------------------------------------------------------------------------------------------------------
+
+int randomNumber() {
+  int color = rand() % 256;
+  return color;
+}
+
+//-----------------------------------------------------------------------------------------------------------------------------------------------------------
+
+int countNumberOfObjects(list <Annotation>::iterator itList, list <Annotation> annotations) {
+
+  itList = annotations.begin();
+  int objCounter = 0;
+
+  while((*itList).getFrameNum() == 0) {
+    objCounter++;
+    itList++;
+  }
+
+  return objCounter;
 }
 
 //-----------------------------------------------------------------------------------------------------------------------------------------------------------
