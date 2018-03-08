@@ -51,6 +51,16 @@ int countNumberOfObjects(list <Annotation>::iterator itList, list <Annotation> a
 
 //-----------------------------------------------------------------------------------------------------------------------------------------------------------
 
+void randomColor(int randomNumber(), int red[], int green[], int blue[], int objectsNumber) {
+  for(int i=0; i<=objectsNumber; i++) {
+    blue[i] = randomNumber();
+    green[i] = randomNumber();
+    red[i] = randomNumber();
+  }
+}
+
+//-----------------------------------------------------------------------------------------------------------------------------------------------------------
+
 void drawRectangle(list <Annotation>::iterator itList, list <Annotation> annotations, string path) {
 
   using namespace cv;

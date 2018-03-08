@@ -19,8 +19,6 @@ int main(int arg, char* argv[]) {
   bool newVisible, newOccluded, newGenerated;
   string newLabel;
 
-
-
   //create list for annotation objects and iterator
   list <Annotation> annotationList;
   list <Annotation>::iterator it;
@@ -35,6 +33,15 @@ int main(int arg, char* argv[]) {
 
   //sort objects by frame number
   annotationList.sort();
+
+  int objects = countNumberOfObjects(it, annotationList);
+
+  int *blue = new int [objects];
+  int *green = new int [objects];
+  int *red = new int [objects];
+
+  srand(time(NULL));
+  // randomColor(randomNumber(), red, green, blue, objects);
 
   //calling functions
   drawRectangle(it, annotationList, argv[2]);
