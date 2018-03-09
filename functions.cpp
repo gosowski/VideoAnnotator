@@ -85,6 +85,9 @@ void drawRectangle(list <Annotation>::iterator itList, list <Annotation> annotat
   int centerX = 0;
   int centerY = 0;
 
+  fstream speedFile;
+  speedFile.open("/home/ubuntu-vm/Desktop/file.txt", ios::out | ios::trunc);
+
   //read video
   for(;;) {
     Mat frame;
@@ -114,7 +117,9 @@ void drawRectangle(list <Annotation>::iterator itList, list <Annotation> annotat
 
         speedX = abs(speedMeasurement(itList, annotations, prev));
         speedY = abs(speedMeasurement(itList, annotations, prev, 'y'));
-        cout<<"TrackId: "<<trackId<<" speed: "<<speedX<<" , "<<speedY<<endl;
+
+        cout<<"TrackId: "<<trackId<<" speed: "<<speedX<<" , "<<speedY<<" frame: "<<(*itList).getFrameNum()<<endl;
+        speedFile<<trackId<<" "<<speedX<<" "<<speedY<<" "<<(*itList).getFrameNum()<<endl;
 
         string imageTextX = to_string(speedX);
         string imageTextY = to_string(speedY);
@@ -141,4 +146,14 @@ void drawRectangle(list <Annotation>::iterator itList, list <Annotation> annotat
       break;
     }
   }
+
+  speedFile.close();
+}
+
+void saveIntoFile(int speedX, int speedY) {
+  fstream speedFile;
+  speedFile.open("/home/ubuntu-vm/Desktop/file.txt", ios::in);
+
+  speedFile<<speedX<<" "<<speedY<<endl;
+  speedFile.close();
 }
