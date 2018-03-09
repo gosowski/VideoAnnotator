@@ -41,4 +41,7 @@ class Annotation {
   bool getVisible();
   int getCenterX();
   int getCenterY();
+  bool getOccluded();
+  bool getGenerated();
+  string getLabel();
 };

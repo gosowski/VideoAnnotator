@@ -22,6 +22,7 @@ int main(int arg, char* argv[]) {
   //create list for annotation objects and iterator
   list <Annotation> annotationList;
   list <Annotation>::iterator it;
+  list <Annotation>::iterator prev;
 
   while(annotation >> newTrackId >> newTopX >> newTopY >> newBottomX >> newBottomY >> newFrameNum >> newVisible >> newOccluded >> newGenerated >> newLabel) {
 
@@ -31,22 +32,29 @@ int main(int arg, char* argv[]) {
     annotationList.push_back(i);
   }
 
-  //sort objects by frame number
-  annotationList.sort();
+  fstream speedFile;
+  speedFile.open("/home/ubuntu-vm/Desktop/file.txt", ios::out | ios::trunc);
 
-  int objects = countNumberOfObjects(it, annotationList);
+  for(it=annotationList.begin(), prev=annotationList.end(); it != annotationList.end(); prev=it, ++it ) {
 
-  int *blue = new int [objects];
-  int *green = new int [objects];
-  int *red = new int [objects];
+    if((*it).getFrameNum() > 0 && (*it).getTrackId() == (*prev).getTrackId()) {
+      int speedX = abs((*it).getCenterX() - (*prev).getCenterX());
+      int speedY = abs((*it).getCenterY() - (*prev).getCenterY());
+      int trackId = (*it).getTrackId();
+      int topX = (*it).getTopX();
+      int topY = (*it).getTopY();
+      int bottomX = (*it).getBottomX();
+      int bottomY = (*it).getBottomY();
+      int frameNum = (*it).getFrameNum();
+      bool visible = (*it).getVisible();
+      bool occluded = (*it).getOccluded();
+      bool generated = (*it).getGenerated();
+      string label = (*it).getLabel();
 
-
-  //calling functions
-  srand(time(NULL));
-
-  randomColor(&randomNumber, red, green, blue, objects);
-  drawRectangle(it, annotationList, argv[2], blue, green, red);
-  // readCenterCoordinates(it, annotationList);
+      speedFile<<trackId<<" "<<topX<<" "<<topY<<" "<<bottomX<<" "<<bottomY<<" "<<frameNum<<" "<<visible<<" "<<occluded<<" "<<generated<<" "<<label<<" "<<(*it).getCenterX()<<" "<<(*it).getCenterY()<<" "<<speedX<<" "<<speedY<<endl;
+    }
+  }
+  speedFile.close();
 
   return 0;
 }

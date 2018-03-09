@@ -89,3 +89,15 @@ int Annotation::getCenterX() {
 int Annotation::getCenterY() {
   return centerY;
 }
+
+bool Annotation::getOccluded() {
+  return occluded;
+}
+
+bool Annotation::getGenerated() {
+  return generated;
+}
+
+string Annotation::getLabel() {
+  return label;
+}
