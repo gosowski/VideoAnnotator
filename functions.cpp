@@ -12,7 +12,7 @@ void readCenterCoordinates(list <Annotation>::iterator itList, list <Annotation>
 
 //-----------------------------------------------------------------------------------------------------------------------------------------------------------
 
-int speedMeasurement(list <Annotation>::iterator itList, list <Annotation> annotations, list <Annotation>::iterator prev) {
+int speedMeasurement(list <Annotation>::iterator itList, list <Annotation> annotations, list <Annotation>::iterator prev, char axis) {
   prev = itList;
   prev--;
 
@@ -22,6 +22,9 @@ int speedMeasurement(list <Annotation>::iterator itList, list <Annotation> annot
     while((*prev).getTrackId() != (*itList).getTrackId()) {
       prev--;
       speed = (*itList).getCenterX() - (*prev).getCenterX();
+      if(axis == 'y' || axis == 'Y') {
+        speed = (*itList).getCenterY() - (*prev).getCenterY();
+      }
     }
   }
   return speed;
@@ -106,12 +109,18 @@ void drawRectangle(list <Annotation>::iterator itList, list <Annotation> annotat
 
         rectangle(frame, Point(xTop, yTop), Point(xBottom, yBottom), Scalar(blue[trackId], green[trackId], red[trackId]), 1, 8, 0);
 
-        int speed = 0;
+        int speedX = 0;
+        int speedY = 0;
 
-        speed = abs(speedMeasurement(itList, annotations, prev));
-        cout<<"TrackId: "<<trackId<<" speed: "<<speed<<endl;
-        string imageText = to_string(speed);
-        putText(frame, imageText, Point(xTop, yTop-10), FONT_HERSHEY_SIMPLEX, 0.3, Scalar(0, 255, 0), 1);
+        speedX = abs(speedMeasurement(itList, annotations, prev));
+        speedY = abs(speedMeasurement(itList, annotations, prev, 'y'));
+        cout<<"TrackId: "<<trackId<<" speed: "<<speedX<<" , "<<speedY<<endl;
+
+        string imageTextX = to_string(speedX);
+        string imageTextY = to_string(speedY);
+
+        putText(frame, imageTextX, Point(xTop, yTop-10), FONT_HERSHEY_SIMPLEX, 0.3, Scalar(0, 255, 0), 1);
+        putText(frame, imageTextY, Point(xTop-10, yTop-10), FONT_HERSHEY_SIMPLEX, 0.3, Scalar(0, 255, 0), 1);
 
       }
 
