@@ -40,12 +40,13 @@ int main(int arg, char* argv[]) {
   int *green = new int [objects];
   int *red = new int [objects];
 
-  srand(time(NULL));
-  // randomColor(randomNumber(), red, green, blue, objects);
 
   //calling functions
-  drawRectangle(it, annotationList, argv[2]);
-  readCenterCoordinates(it, annotationList);
+  srand(time(NULL));
+
+  randomColor(&randomNumber, red, green, blue, objects);
+  drawRectangle(it, annotationList, argv[2], blue, green, red);
+  // readCenterCoordinates(it, annotationList);
 
   return 0;
 }

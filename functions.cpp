@@ -51,17 +51,17 @@ int countNumberOfObjects(list <Annotation>::iterator itList, list <Annotation> a
 
 //-----------------------------------------------------------------------------------------------------------------------------------------------------------
 
-void randomColor(int randomNumber(), int red[], int green[], int blue[], int objectsNumber) {
+void randomColor(int (*randomNumber)(), int red[], int green[], int blue[], int objectsNumber) {
   for(int i=0; i<=objectsNumber; i++) {
-    blue[i] = randomNumber();
-    green[i] = randomNumber();
-    red[i] = randomNumber();
+    blue[i] = (*randomNumber)();
+    green[i] = (*randomNumber)();
+    red[i] = (*randomNumber)();
   }
 }
 
 //-----------------------------------------------------------------------------------------------------------------------------------------------------------
 
-void drawRectangle(list <Annotation>::iterator itList, list <Annotation> annotations, string path) {
+void drawRectangle(list <Annotation>::iterator itList, list <Annotation> annotations, string path, int blue[], int green[], int red[]) {
 
   using namespace cv;
 
@@ -104,7 +104,7 @@ void drawRectangle(list <Annotation>::iterator itList, list <Annotation> annotat
 
       if(frameOut == 0) {
 
-        rectangle(frame, Point(xTop, yTop), Point(xBottom, yBottom), Scalar(51, 255, 255), 1, 8, 0);
+        rectangle(frame, Point(xTop, yTop), Point(xBottom, yBottom), Scalar(blue[trackId], green[trackId], red[trackId]), 1, 8, 0);
 
         int speed = 0;
 
