@@ -3,7 +3,7 @@
 
 using namespace std;
 
-Annotation::Annotation(int newTrackId, int newTopX, int newTopY, int newBottomX, int newBottomY, int newFrameNum, bool newVisible, bool newOccluded, bool newGenerated, string newLabel) {
+Annotation::Annotation(int newTrackId, float newTopX, float newTopY, float newBottomX, float newBottomY, int newFrameNum, bool newVisible, bool newOccluded, bool newGenerated, string newLabel) {
   trackId = newTrackId;
   topX = newTopX;
   topY = newTopY;
@@ -58,19 +58,19 @@ int Annotation::getTrackId() {
   return trackId;
 }
 
-int Annotation::getTopX() {
+float Annotation::getTopX() {
   return topX;
 }
 
-int Annotation::getTopY() {
+float Annotation::getTopY() {
   return topY;
 }
 
-int Annotation::getBottomX() {
+float Annotation::getBottomX() {
   return bottomX;
 }
 
-int Annotation::getBottomY() {
+float Annotation::getBottomY() {
   return bottomY;
 }
 
@@ -82,10 +82,22 @@ bool Annotation::getVisible() {
   return visible;
 }
 
-int Annotation::getCenterX() {
+float Annotation::getCenterX() {
   return centerX;
 }
 
-int Annotation::getCenterY() {
+float Annotation::getCenterY() {
   return centerY;
+}
+
+bool Annotation::getOccluded() {
+  return occluded;
+}
+
+bool Annotation::getGenerated() {
+  return generated;
+}
+
+string Annotation::getLabel() {
+  return label;
 }

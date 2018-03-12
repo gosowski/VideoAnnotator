@@ -15,13 +15,15 @@ int main(int arg, char* argv[]) {
   annotation.open(argv[1]);
 
   //declare variables;
-  int newTrackId, newTopX, newTopY, newBottomX, newBottomY, newFrameNum, newCenterX, newCenterY;
+  int newTrackId, newFrameNum;
+  float newTopX, newTopY, newBottomX, newBottomY, newCenterX, newCenterY;
   bool newVisible, newOccluded, newGenerated;
   string newLabel;
 
   //create list for annotation objects and iterator
   list <Annotation> annotationList;
   list <Annotation>::iterator it;
+  list <Annotation>::iterator prev;
 
   while(annotation >> newTrackId >> newTopX >> newTopY >> newBottomX >> newBottomY >> newFrameNum >> newVisible >> newOccluded >> newGenerated >> newLabel) {
 
@@ -31,22 +33,7 @@ int main(int arg, char* argv[]) {
     annotationList.push_back(i);
   }
 
-  //sort objects by frame number
-  annotationList.sort();
-
-  int objects = countNumberOfObjects(it, annotationList);
-
-  int *blue = new int [objects];
-  int *green = new int [objects];
-  int *red = new int [objects];
-
-
-  //calling functions
-  srand(time(NULL));
-
-  randomColor(&randomNumber, red, green, blue, objects);
-  drawRectangle(it, annotationList, argv[2], blue, green, red);
-  // readCenterCoordinates(it, annotationList);
+  readWriteSpeed(it, annotationList, prev);
 
   return 0;
 }
