@@ -12,11 +12,11 @@ void readCenterCoordinates(list <Annotation>::iterator itList, list <Annotation>
 
 //-----------------------------------------------------------------------------------------------------------------------------------------------------------
 
-int speedMeasurement(list <Annotation>::iterator itList, list <Annotation> annotations, list <Annotation>::iterator prev, char axis) {
+float speedMeasurement(list <Annotation>::iterator itList, list <Annotation> annotations, list <Annotation>::iterator prev, char axis) {
   prev = itList;
   prev--;
 
-  int speed = 0;
+  float speed = 0.0;
 
   if((*itList).getFrameNum() > 0) {
     while((*prev).getTrackId() != (*itList).getTrackId()) {
@@ -85,9 +85,6 @@ void drawRectangle(list <Annotation>::iterator itList, list <Annotation> annotat
   int centerX = 0;
   int centerY = 0;
 
-  fstream speedFile;
-  speedFile.open("/home/ubuntu-vm/Desktop/file.txt", ios::out | ios::trunc);
-
   //read video
   for(;;) {
     Mat frame;
@@ -118,14 +115,11 @@ void drawRectangle(list <Annotation>::iterator itList, list <Annotation> annotat
         speedX = fabs(speedMeasurement(itList, annotations, prev));
         speedY = fabs(speedMeasurement(itList, annotations, prev, 'y'));
 
-        cout<<"TrackId: "<<trackId<<" speed: "<<speedX<<" , "<<speedY<<" frame: "<<(*itList).getFrameNum()<<endl;
-        speedFile<<trackId<<" "<<speedX<<" "<<speedY<<" "<<(*itList).getFrameNum()<<endl;
-
         string imageTextX = to_string(speedX);
         string imageTextY = to_string(speedY);
 
-        putText(frame, imageTextX, Point(xTop, yTop-10), FONT_HERSHEY_SIMPLEX, 0.3, Scalar(0, 255, 0), 1);
-        putText(frame, imageTextY, Point(xTop-10, yTop-10), FONT_HERSHEY_SIMPLEX, 0.3, Scalar(0, 255, 0), 1);
+        putText(frame, imageTextX, Point(xTop+30, yTop-10), FONT_HERSHEY_SIMPLEX, 0.3, Scalar(0, 255, 0), 1);
+        putText(frame, imageTextY, Point(xTop-30, yTop-10), FONT_HERSHEY_SIMPLEX, 0.3, Scalar(0, 255, 0), 1);
 
       }
 
@@ -146,8 +140,6 @@ void drawRectangle(list <Annotation>::iterator itList, list <Annotation> annotat
       break;
     }
   }
-
-  speedFile.close();
 }
 
 void readWriteSpeed(list <Annotation>::iterator itList, list <Annotation> annotations, list <Annotation>::iterator prev) {

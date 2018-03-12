@@ -35,5 +35,22 @@ int main(int arg, char* argv[]) {
 
   readWriteSpeed(it, annotationList, prev);
 
+  //sort objects by frame number
+  annotationList.sort();
+
+  int objects = countNumberOfObjects(it, annotationList);
+
+  int *blue = new int [objects];
+  int *green = new int [objects];
+  int *red = new int [objects];
+
+
+  //calling functions
+  srand(time(NULL));
+
+  randomColor(&randomNumber, red, green, blue, objects);
+  drawRectangle(it, annotationList, argv[2], blue, green, red);
+  // readCenterCoordinates(it, annotationList);
+
   return 0;
 }
