@@ -15,7 +15,8 @@ int main(int arg, char* argv[]) {
   annotation.open(argv[1]);
 
   //declare variables;
-  int newTrackId, newTopX, newTopY, newBottomX, newBottomY, newFrameNum, newCenterX, newCenterY;
+  int newTrackId, newFrameNum;
+  float newTopX, newTopY, newBottomX, newBottomY, newCenterX, newCenterY;
   bool newVisible, newOccluded, newGenerated;
   string newLabel;
 

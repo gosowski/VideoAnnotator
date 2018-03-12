@@ -157,25 +157,20 @@ void readWriteSpeed(list <Annotation>::iterator itList, list <Annotation> annota
 
   for(itList=annotations.begin(), prev=annotations.end(); itList != annotations.end(); prev=itList, ++itList ) {
 
-    int speedX = abs((*itList).getCenterX() - (*prev).getCenterX());
-    int speedY = abs((*itList).getCenterY() - (*prev).getCenterY());
+    float speedX = fabs((*itList).getCenterX() - (*prev).getCenterX());
+    float speedY = fabs((*itList).getCenterY() - (*prev).getCenterY());
     int trackId = (*itList).getTrackId();
-    int topX = (*itList).getTopX();
-    int topY = (*itList).getTopY();
-    int bottomX = (*itList).getBottomX();
-    int bottomY = (*itList).getBottomY();
-    int frameNum = (*itList).getFrameNum();
-    bool visible = (*itList).getVisible();
-    bool occluded = (*itList).getOccluded();
-    bool generated = (*itList).getGenerated();
-    string label = (*itList).getLabel();
+    float topX = (*itList).getTopX();
+    float topY = (*itList).getTopY();
+    float bottomX = (*itList).getBottomX();
+    float bottomY = (*itList).getBottomY();
 
     if((*itList).getFrameNum() > 0 && (*itList).getTrackId() == (*prev).getTrackId()) {
 
-      speedFile<<trackId<<" "<<topX<<" "<<topY<<" "<<bottomX<<" "<<bottomY<<" "<<frameNum<<" "<<visible<<" "<<occluded<<" "<<generated<<" "<<label<<" "<<(*itList).getCenterX()<<" "<<(*itList).getCenterY()<<" "<<speedX<<" "<<speedY<<endl;
+      speedFile<<trackId<<" "<<topX<<" "<<topY<<" "<<bottomX<<" "<<bottomY<<" "<<speedX<<" "<<speedY<<endl;
     } else {
 
-      speedFile<<trackId<<" "<<topX<<" "<<topY<<" "<<bottomX<<" "<<bottomY<<" "<<frameNum<<" "<<visible<<" "<<occluded<<" "<<generated<<" "<<label<<" "<<(*itList).getCenterX()<<" "<<(*itList).getCenterY()<<" 0 0 "<<endl;
+      speedFile<<trackId<<" "<<topX<<" "<<topY<<" "<<bottomX<<" "<<bottomY<<" 0 0 "<<endl;
     }
   }
   speedFile.close();

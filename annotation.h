@@ -6,20 +6,20 @@ class Annotation {
 
   private:
     int trackId;
-    int topX;
-    int topY;
-    int bottomX;
-    int bottomY;
+    float topX;
+    float topY;
+    float bottomX;
+    float bottomY;
     int frameNum;
     bool visible;
     bool occluded;
     bool generated;
     string label;
-    int centerX;
-    int centerY;
+    float centerX;
+    float centerY;
 
   public:
-    Annotation(int newTrackId, int newTopX, int newTopY, int newBottomX, int newBottomY, int newFrameNum, bool newVisible, bool newOccluded, bool newGenerated, string newLabel);
+    Annotation(int newTrackId, float newTopX, float newTopY, float newBottomX, float newBottomY, int newFrameNum, bool newVisible, bool newOccluded, bool newGenerated, string newLabel);
     // ~Annotation();
 
     void showAttr();
@@ -33,14 +33,14 @@ class Annotation {
 
   // //getters declarations
   int getTrackId();
-  int getTopX();
-  int getTopY();
-  int getBottomX();
-  int getBottomY();
+  float getTopX();
+  float getTopY();
+  float getBottomX();
+  float getBottomY();
   int getFrameNum();
   bool getVisible();
-  int getCenterX();
-  int getCenterY();
+  float getCenterX();
+  float getCenterY();
   bool getOccluded();
   bool getGenerated();
   string getLabel();
