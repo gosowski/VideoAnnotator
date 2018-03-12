@@ -135,7 +135,7 @@ void drawRectangle(list <Annotation>::iterator itList, list <Annotation> annotat
 
     namedWindow("Frame", 1);
     imshow("Frame", frame);
-    char c=(char)waitKey(50);
+    char c=(char)waitKey(100);
     if(c==27) {
       break;
     }
