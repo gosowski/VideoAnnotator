@@ -150,10 +150,34 @@ void drawRectangle(list <Annotation>::iterator itList, list <Annotation> annotat
   speedFile.close();
 }
 
-void saveIntoFile(int speedX, int speedY) {
-  fstream speedFile;
-  speedFile.open("/home/ubuntu-vm/Desktop/file.txt", ios::in);
+void readWriteSpeed(list <Annotation>::iterator itList, list <Annotation> annotations, list <Annotation>::iterator prev) {
 
-  speedFile<<speedX<<" "<<speedY<<endl;
+  fstream speedFile;
+  speedFile.open("/home/ubuntu-vm/Desktop/file.txt", ios::out | ios::trunc);
+
+  for(itList=annotations.begin(), prev=annotations.end(); itList != annotations.end(); prev=itList, ++itList ) {
+
+    int speedX = abs((*itList).getCenterX() - (*prev).getCenterX());
+    int speedY = abs((*itList).getCenterY() - (*prev).getCenterY());
+    int trackId = (*itList).getTrackId();
+    int topX = (*itList).getTopX();
+    int topY = (*itList).getTopY();
+    int bottomX = (*itList).getBottomX();
+    int bottomY = (*itList).getBottomY();
+    int frameNum = (*itList).getFrameNum();
+    bool visible = (*itList).getVisible();
+    bool occluded = (*itList).getOccluded();
+    bool generated = (*itList).getGenerated();
+    string label = (*itList).getLabel();
+
+    if((*itList).getFrameNum() > 0 && (*itList).getTrackId() == (*prev).getTrackId()) {
+
+      speedFile<<trackId<<" "<<topX<<" "<<topY<<" "<<bottomX<<" "<<bottomY<<" "<<frameNum<<" "<<visible<<" "<<occluded<<" "<<generated<<" "<<label<<" "<<(*itList).getCenterX()<<" "<<(*itList).getCenterY()<<" "<<speedX<<" "<<speedY<<endl;
+    } else {
+
+      speedFile<<trackId<<" "<<topX<<" "<<topY<<" "<<bottomX<<" "<<bottomY<<" "<<frameNum<<" "<<visible<<" "<<occluded<<" "<<generated<<" "<<label<<" "<<(*itList).getCenterX()<<" "<<(*itList).getCenterY()<<" 0 0 "<<endl;
+    }
+  }
   speedFile.close();
+
 }
