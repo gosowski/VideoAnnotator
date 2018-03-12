@@ -109,7 +109,7 @@ void drawRectangle(list <Annotation>::iterator itList, list <Annotation> annotat
         int speed = 0;
 
         speed = abs(speedMeasurement(itList, annotations, prev));
-        cout<<"TrackId: "<<trackId<<" speed: "<<speed<<endl;
+        // cout<<"TrackId: "<<trackId<<" speed: "<<speed<<endl;
         string imageText = to_string(speed);
         putText(frame, imageText, Point(xTop, yTop-10), FONT_HERSHEY_SIMPLEX, 0.3, Scalar(0, 255, 0), 1);
 
