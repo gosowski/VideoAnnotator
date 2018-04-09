@@ -1,1 +1,3 @@
+#ignore out file
 *.out
+*.o
