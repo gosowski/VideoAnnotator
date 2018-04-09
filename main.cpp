@@ -7,9 +7,11 @@
 
 using namespace std;
 
-int main(int arg, char* argv[]) {
-
-  help();
+int main(int argc, char* argv[]) {
+  if(argc == 1) {
+    help();
+    return 0;
+  }
 
   ifstream annotation;
   annotation.open(argv[1]);
