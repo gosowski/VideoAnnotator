@@ -84,12 +84,20 @@ void drawRectangle(list <Annotation>::iterator itList, list <Annotation> annotat
   bool frameOut = 0;
   int centerX = 0;
   int centerY = 0;
+  
+  //video frame number counter
+  int frameCounter = 0;
 
+
+  
   //read video
   for(;;) {
     Mat frame;
 
     video >> frame;
+
+    // show video frame and frame from txt
+    std::cout<<frameCounter<<" | "<<(*itList).getFrameNum()<<std::endl;
 
     //read objects attr values
     while(checkFrameNum == (*itList).getFrameNum()) {
@@ -135,10 +143,14 @@ void drawRectangle(list <Annotation>::iterator itList, list <Annotation> annotat
 
     namedWindow("Frame", 1);
     imshow("Frame", frame);
-    char c=(char)waitKey(30);
+    char c=(char)waitKey(0);
     if(c==27) {
       break;
     }
+
+    //increment counter
+    frameCounter++;
+
   }
 }
 
