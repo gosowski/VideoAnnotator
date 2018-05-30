@@ -126,7 +126,7 @@ void drawRectangle(list <Annotation>::iterator itList, list <Annotation> annotat
       itList++;
 
     }
-    checkFrameNum++;
+    checkFrameNum++;    
 
     //break for loop if there is no frame left
     if(frame.empty()) {
@@ -135,7 +135,7 @@ void drawRectangle(list <Annotation>::iterator itList, list <Annotation> annotat
 
     namedWindow("Frame", 1);
     imshow("Frame", frame);
-    char c=(char)waitKey(100);
+    char c=(char)waitKey(30);
     if(c==27) {
       break;
     }

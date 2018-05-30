@@ -8,6 +8,7 @@
 using namespace std;
 
 int main(int argc, char* argv[]) {
+
   if(argc == 1) {
     help();
     return 0;
@@ -35,11 +36,11 @@ int main(int argc, char* argv[]) {
     annotationList.push_back(i);
   }
 
-  readWriteSpeed(it, annotationList, prev);
+  // readWriteSpeed(it, annotationList, prev);
 
   //sort objects by frame number
   annotationList.sort();
-
+  
   int objects = countNumberOfObjects(it, annotationList);
 
   int *blue = new int [objects];
@@ -52,7 +53,7 @@ int main(int argc, char* argv[]) {
 
   randomColor(&randomNumber, red, green, blue, objects);
   drawRectangle(it, annotationList, argv[2], blue, green, red);
-  // readCenterCoordinates(it, annotationList);
+  readCenterCoordinates(it, annotationList);
 
   return 0;
 }
