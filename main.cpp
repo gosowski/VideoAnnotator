@@ -35,7 +35,7 @@ int main(int argc, char* argv[]) {
 
     annotationList.push_back(i);
   }
-
+  // get velocity of the object, pass it to new folder and write to the disk
   // readWriteSpeed(it, annotationList, prev);
 
   //sort objects by frame number
