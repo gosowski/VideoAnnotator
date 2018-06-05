@@ -97,7 +97,7 @@ void drawRectangle(list <Annotation>::iterator itList, list <Annotation> annotat
     video >> frame;
 
     // show video frame and frame from txt
-    std::cout<<frameCounter<<" | "<<(*itList).getFrameNum()<<std::endl;
+    std::cout<<checkFrameNum<<" | "<<frameCounter<<" | "<<(*itList).getFrameNum()<<std::endl;
 
     //read objects attr values
     while(checkFrameNum == (*itList).getFrameNum()) {
@@ -109,6 +109,8 @@ void drawRectangle(list <Annotation>::iterator itList, list <Annotation> annotat
       frameOut = (*itList).getVisible();
       centerX = (*itList).getCenterX();
       centerY = (*itList).getCenterY();
+
+      std::cout<<"Read from: "<<(*itList).getFrameNum()<<" | "<<trackId<<" | "<<xTop<<" | "<<yTop<<" | "<<xBottom<<" | "<<frameOut<<std::endl;
 
       //if frame is visible draw a rectangle and text above it with speed
       //beetwen each frame
@@ -138,6 +140,7 @@ void drawRectangle(list <Annotation>::iterator itList, list <Annotation> annotat
 
     //break for loop if there is no frame left
     if(frame.empty()) {
+      std::cout<<"End of file"<<std::endl;
       break;
     }
 
