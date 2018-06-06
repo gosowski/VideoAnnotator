@@ -122,16 +122,14 @@ void drawRectangle(list <Annotation>::iterator itList, list <Annotation> annotat
         // float speedX = 0.0;
         // float speedY = 0.0;
 
-        // speedX = fabs(speedMeasurement(itList, annotations, prev));
-        // speedY = fabs(speedMeasurement(itList, annotations, prev, 'y'));
-        string xCord = to_string(xTop);
-        string yCord = to_string(yTop);
+        speedX = fabs(speedMeasurement(itList, annotations, prev));
+        speedY = fabs(speedMeasurement(itList, annotations, prev, 'y'));
 
-        // string imageTextX = to_string(speedX);
-        // string imageTextY = to_string(speedY);
+        string imageTextX = to_string(speedX);
+        string imageTextY = to_string(speedY);
 
-        putText(frame, xCord, Point(xTop+30, yTop-10), FONT_HERSHEY_SIMPLEX, 0.3, Scalar(0, 255, 0), 1);
-        putText(frame, yCord, Point(xTop-30, yTop-10), FONT_HERSHEY_SIMPLEX, 0.3, Scalar(0, 255, 0), 1);
+        putText(frame, imageTextX, Point(xTop+30, yTop-10), FONT_HERSHEY_SIMPLEX, 0.3, Scalar(0, 255, 0), 1);
+        putText(frame, imageTextY, Point(xTop-30, yTop-10), FONT_HERSHEY_SIMPLEX, 0.3, Scalar(0, 255, 0), 1);
 
       }
 
