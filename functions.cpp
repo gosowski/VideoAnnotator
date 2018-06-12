@@ -48,7 +48,6 @@ int countNumberOfObjects(list <Annotation>::iterator itList, list <Annotation> a
     objCounter++;
     itList++;
   }
-
   return objCounter;
 }
 
@@ -96,7 +95,6 @@ void drawRectangle(list <Annotation>::iterator itList, list <Annotation> annotat
     while(checkFrameNum == (*itList).getFrameNum()) {
 
       itList++;
-      std::cout<<"Inside While loop"<<std::endl;
 
       trackId = (*itList).getTrackId();
       xTop = (*itList).getTopX();
@@ -106,8 +104,6 @@ void drawRectangle(list <Annotation>::iterator itList, list <Annotation> annotat
       frameOut = (*itList).getVisible();
       centerX = (*itList).getCenterX();
       centerY = (*itList).getCenterY();
-
-      std::cout<<"Read from: "<<(*itList).getFrameNum()<<" | "<<checkFrameNum<<" | "<<trackId<<" | "<<xTop<<" | "<<yTop<<" | "<<xBottom<<" | "<<frameOut<<std::endl;
 
       //if frame is visible draw a rectangle and text above it with speed
       //beetwen each frame
@@ -171,5 +167,4 @@ void readWriteSpeed(list <Annotation>::iterator itList, list <Annotation> annota
     }
   }
   speedFile.close();
-
 }
