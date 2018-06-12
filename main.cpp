@@ -47,7 +47,6 @@ int main(int argc, char* argv[]) {
   int *green = new int [objects];
   int *red = new int [objects];
 
-
   //calling functions
   srand(time(NULL));
 
