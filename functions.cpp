@@ -70,7 +70,6 @@ void drawRectangle(list <Annotation>::iterator itList, list <Annotation> annotat
 
   // create video
   VideoCapture video(path);
-  int checkFrameNum = 0;
 
   //set iterator to the beginning of the list and create new list iterator
   itList = annotations.begin();
@@ -85,8 +84,7 @@ void drawRectangle(list <Annotation>::iterator itList, list <Annotation> annotat
   int centerX = 0;
   int centerY = 0;
   
-  //video frame number counter
-  int frameCounter = 0;
+  int checkFrameNum = 0;
 
   //read video
   for(;;) {
@@ -94,11 +92,12 @@ void drawRectangle(list <Annotation>::iterator itList, list <Annotation> annotat
 
     video >> frame;
 
-    // show video frame and frame from txt
-    std::cout<<checkFrameNum<<" | "<<frameCounter<<" | "<<(*itList).getFrameNum()<<std::endl;
-
     //read objects attr values
     while(checkFrameNum == (*itList).getFrameNum()) {
+
+      itList++;
+      std::cout<<"Inside While loop"<<std::endl;
+
       trackId = (*itList).getTrackId();
       xTop = (*itList).getTopX();
       yTop = (*itList).getTopY();
@@ -108,7 +107,7 @@ void drawRectangle(list <Annotation>::iterator itList, list <Annotation> annotat
       centerX = (*itList).getCenterX();
       centerY = (*itList).getCenterY();
 
-      std::cout<<"Read from: "<<(*itList).getFrameNum()<<" | "<<trackId<<" | "<<xTop<<" | "<<yTop<<" | "<<xBottom<<" | "<<frameOut<<std::endl;
+      std::cout<<"Read from: "<<(*itList).getFrameNum()<<" | "<<checkFrameNum<<" | "<<trackId<<" | "<<xTop<<" | "<<yTop<<" | "<<xBottom<<" | "<<frameOut<<std::endl;
 
       //if frame is visible draw a rectangle and text above it with speed
       //beetwen each frame
@@ -131,7 +130,6 @@ void drawRectangle(list <Annotation>::iterator itList, list <Annotation> annotat
 
       }
 
-      itList++;
 
     }
     checkFrameNum++;    
@@ -148,10 +146,6 @@ void drawRectangle(list <Annotation>::iterator itList, list <Annotation> annotat
     if(c==27) {
       break;
     }
-
-    //increment counter
-    frameCounter++;
-
   }
 }
 
