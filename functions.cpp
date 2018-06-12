@@ -129,8 +129,6 @@ void drawRectangle(list <Annotation>::iterator itList, list <Annotation> annotat
         putText(frame, imageTextY, Point(xTop-30, yTop-10), FONT_HERSHEY_SIMPLEX, 0.3, Scalar(0, 255, 0), 1);
 
       }
-
-
     }
     checkFrameNum++;    
 
