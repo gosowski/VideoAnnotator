@@ -12,11 +12,11 @@ void readCenterCoordinates(list <Annotation>::iterator itList, list <Annotation>
 
 //-----------------------------------------------------------------------------------------------------------------------------------------------------------
 
-int speedMeasurement(list <Annotation>::iterator itList, list <Annotation> annotations, list <Annotation>::iterator prev, char axis) {
+float speedMeasurement(list <Annotation>::iterator itList, list <Annotation> annotations, list <Annotation>::iterator prev, char axis) {
   prev = itList;
   prev--;
 
-  int speed = 0;
+  float speed = 0.0;
 
   if((*itList).getFrameNum() > 0) {
     while((*prev).getTrackId() != (*itList).getTrackId()) {
@@ -112,11 +112,11 @@ void drawRectangle(list <Annotation>::iterator itList, list <Annotation> annotat
 
         rectangle(frame, Point(xTop, yTop), Point(xBottom, yBottom), Scalar(blue[trackId], green[trackId], red[trackId]), 1, 8, 0);
 
-        int speedX = 0;
-        int speedY = 0;
+        float speedX = 0.0;
+        float speedY = 0.0;
 
-        speedX = abs(speedMeasurement(itList, annotations, prev));
-        speedY = abs(speedMeasurement(itList, annotations, prev, 'y'));
+        speedX = fabs(speedMeasurement(itList, annotations, prev));
+        speedY = fabs(speedMeasurement(itList, annotations, prev, 'y'));
 
         cout<<"TrackId: "<<trackId<<" speed: "<<speedX<<" , "<<speedY<<" frame: "<<(*itList).getFrameNum()<<endl;
         speedFile<<trackId<<" "<<speedX<<" "<<speedY<<" "<<(*itList).getFrameNum()<<endl;
