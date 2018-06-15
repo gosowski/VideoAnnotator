@@ -18,7 +18,7 @@ float speedMeasurement(list <Annotation>::iterator itList, list <Annotation> ann
 
   float speed = 0.0;
 
-  if((*itList).getFrameNum() > 0) {
+  if((*itList).getFrameNum() > 1) {
     std::cout<<(*itList).getFrameNum()<<std::endl;
     // while((*prev).getTrackId() != (*itList).getTrackId()) {
     //   prev--;
