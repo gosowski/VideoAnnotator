@@ -19,14 +19,18 @@ float speedMeasurement(list <Annotation>::iterator itList, list <Annotation> ann
   float speed = 0.0;
 
   if((*itList).getFrameNum() > 0) {
-    while((*prev).getTrackId() != (*itList).getTrackId()) {
-      prev--;
+    std::cout<<(*itList).getFrameNum()<<std::endl;
+    // while((*prev).getTrackId() != (*itList).getTrackId()) {
+    //   prev--;
+      std::cout<<"Inside while. Prev frame num "<<(*prev).getFrameNum()<<" ";
       speed = (*itList).getCenterX() - (*prev).getCenterX();
       if(axis == 'y' || axis == 'Y') {
         speed = (*itList).getCenterY() - (*prev).getCenterY();
+        std::cout<<"y ";
       }
-    }
+    // }
   }
+  std::cout<<"speed "<<speed<<std::endl;
   return speed;
 }
 
@@ -96,6 +100,8 @@ void drawRectangle(list <Annotation>::iterator itList, list <Annotation> annotat
 
     //read objects attr values
     while(checkFrameNum == (*itList).getFrameNum()) {
+      itList++;
+
       trackId = (*itList).getTrackId();
       xTop = (*itList).getTopX();
       yTop = (*itList).getTopY();
@@ -118,9 +124,6 @@ void drawRectangle(list <Annotation>::iterator itList, list <Annotation> annotat
         speedX = fabs(speedMeasurement(itList, annotations, prev));
         speedY = fabs(speedMeasurement(itList, annotations, prev, 'y'));
 
-        cout<<"TrackId: "<<trackId<<" speed: "<<speedX<<" , "<<speedY<<" frame: "<<(*itList).getFrameNum()<<endl;
-        speedFile<<trackId<<" "<<speedX<<" "<<speedY<<" "<<(*itList).getFrameNum()<<endl;
-
         string imageTextX = to_string(speedX);
         string imageTextY = to_string(speedY);
 
@@ -128,9 +131,6 @@ void drawRectangle(list <Annotation>::iterator itList, list <Annotation> annotat
         putText(frame, imageTextY, Point(xTop-10, yTop-10), FONT_HERSHEY_SIMPLEX, 0.3, Scalar(0, 255, 0), 1);
 
       }
-
-      itList++;
-
     }
     checkFrameNum++;
 
