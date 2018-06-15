@@ -18,14 +18,14 @@ float speedMeasurement(list <Annotation>::iterator itList, list <Annotation> ann
 
   float speed = 0.0;
 
-  if((*itList).getFrameNum() > 0) {
-    while((*prev).getTrackId() != (*itList).getTrackId()) {
+  if((*itList).getFrameNum() > 1) {
+    // while((*prev).getTrackId() != (*itList).getTrackId()) {
       prev--;
       speed = (*itList).getCenterX() - (*prev).getCenterX();
       if(axis == 'y' || axis == 'Y') {
         speed = (*itList).getCenterY() - (*prev).getCenterY();
       }
-    }
+    // }
   }
   return speed;
 }
