@@ -6,5 +6,5 @@ PROG = main.out
 OPENCV = `pkg-config opencv --cflags --libs`
 LIBS = $(OPENCV)
 
-$(PROG):$(SRCS)
+all:
 	$(CC) $(CFLAGS) -o $(PROG) $(SRCS) $(LIBS)
