@@ -12,6 +12,12 @@ void readCenterCoordinates(list <Annotation>::iterator itList, list <Annotation>
 
 //-----------------------------------------------------------------------------------------------------------------------------------------------------------
 
+void getLogs(int valX, int valY) {
+  cout<<"Center point values: ("<<valX<<","<<valY<<")"<<endl;
+}
+
+//-----------------------------------------------------------------------------------------------------------------------------------------------------------
+
 float speedMeasurement(list <Annotation>::iterator itList, list <Annotation> annotations, list <Annotation>::iterator prev, char axis) {
   prev = itList;
   prev--;
@@ -101,30 +107,31 @@ void drawRectangle(list <Annotation>::iterator itList, list <Annotation> annotat
       yTop = (*itList).getTopY();
       xBottom = (*itList).getBottomX();
       yBottom = (*itList).getBottomY();
-      frameOut = (*itList).getVisible();
       centerX = (*itList).getCenterX();
       centerY = (*itList).getCenterY();
 
       //if frame is visible draw a rectangle and text above it with speed
       //beetwen each frame
 
-      if(frameOut == 0) {
+        
+      getLogs(centerX, centerY);
 
-        rectangle(frame, Point(xTop, yTop), Point(xBottom, yBottom), Scalar(blue[trackId], green[trackId], red[trackId]), 1, 8, 0);
+      rectangle(frame, Point(xTop, yTop), Point(xBottom, yBottom), Scalar(blue[trackId], green[trackId], red[trackId]), 1, 8, 0);
 
-        float speedX = 0.0;
-        float speedY = 0.0;
+      float speedX = 0.0;
+      float speedY = 0.0;
 
-        speedX = fabs(speedMeasurement(itList, annotations, prev));
-        speedY = fabs(speedMeasurement(itList, annotations, prev, 'y'));
+      speedX = fabs(speedMeasurement(itList, annotations, prev));
+      speedY = fabs(speedMeasurement(itList, annotations, prev, 'y'));
 
-        string imageTextX = to_string(speedX);
-        string imageTextY = to_string(speedY);
+      string imageTextX = to_string(speedX);
+      string imageTextY = to_string(speedY);
 
-        putText(frame, imageTextX, Point(xTop+30, yTop-10), FONT_HERSHEY_SIMPLEX, 0.3, Scalar(0, 255, 0), 1);
-        putText(frame, imageTextY, Point(xTop-30, yTop-10), FONT_HERSHEY_SIMPLEX, 0.3, Scalar(0, 255, 0), 1);
+      putText(frame, imageTextX, Point(xTop+30, yTop-10), FONT_HERSHEY_SIMPLEX, 0.3, Scalar(0, 255, 0), 1);
+      putText(frame, imageTextY, Point(xTop-30, yTop-10), FONT_HERSHEY_SIMPLEX, 0.3, Scalar(0, 255, 0), 1);
 
-      }
+
+      
     }
     checkFrameNum++;    
 

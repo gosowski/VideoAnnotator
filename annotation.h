@@ -11,16 +11,12 @@ class Annotation {
     float bottomX;
     float bottomY;
     int frameNum;
-    bool visible;
-    bool occluded;
-    bool generated;
-    string label;
     float centerX;
     float centerY;
 
   public:
-    Annotation(int newTrackId, float newTopX, float newTopY, float newBottomX, float newBottomY, int newFrameNum, bool newVisible, bool newOccluded, bool newGenerated, string newLabel);
-    // ~Annotation();
+    Annotation(int newTrackId, float newTopX, float newTopY, float newBottomX, float newBottomY, int newFrameNum);
+    ~Annotation();
 
     void showAttr();
 
@@ -38,10 +34,6 @@ class Annotation {
   float getBottomX();
   float getBottomY();
   int getFrameNum();
-  bool getVisible();
   float getCenterX();
   float getCenterY();
-  bool getOccluded();
-  bool getGenerated();
-  string getLabel();
 };

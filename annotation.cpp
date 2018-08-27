@@ -3,24 +3,20 @@
 
 using namespace std;
 
-Annotation::Annotation(int newTrackId, float newTopX, float newTopY, float newBottomX, float newBottomY, int newFrameNum, bool newVisible, bool newOccluded, bool newGenerated, string newLabel) {
+Annotation::Annotation(int newTrackId, float newTopX, float newTopY, float newBottomX, float newBottomY, int newFrameNum) {
   trackId = newTrackId;
   topX = newTopX;
   topY = newTopY;
   bottomX = newBottomX;
   bottomY = newBottomY;
   frameNum = newFrameNum;
-  visible = newVisible;
-  occluded = newOccluded;
-  generated = newGenerated;
-  label = newLabel;
   centerX = (newTopX + newBottomX)/2;
   centerY = (newTopY + newBottomY)/2;
 }
 
-// Annotation::~Annotation() {
-//   cout<<"destruct"<<endl;
-// }
+Annotation::~Annotation() {
+  cout<<"destruct"<<endl;
+}
 
 void Annotation::showAttr() {
   cout<<"trackId: "<<trackId<<endl;
@@ -29,11 +25,6 @@ void Annotation::showAttr() {
   cout<<"bottom X coordinate: "<<bottomX<<endl;
   cout<<"bottom Y coordinate: "<<bottomY<<endl;
   cout<<"frame number: "<<frameNum<<endl;
-  if(visible) {
-    cout<<"Frame visible"<<endl;
-  } else {
-    cout<<"Frame not visible"<<endl;
-  }
 }
 
 bool Annotation::operator < (Annotation &obj)const {
@@ -78,26 +69,10 @@ int Annotation::getFrameNum() {
   return frameNum;
 }
 
-bool Annotation::getVisible() {
-  return visible;
-}
-
 float Annotation::getCenterX() {
   return centerX;
 }
 
 float Annotation::getCenterY() {
   return centerY;
-}
-
-bool Annotation::getOccluded() {
-  return occluded;
-}
-
-bool Annotation::getGenerated() {
-  return generated;
-}
-
-string Annotation::getLabel() {
-  return label;
 }

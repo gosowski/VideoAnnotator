@@ -28,10 +28,10 @@ int main(int argc, char* argv[]) {
   list <Annotation>::iterator it;
   list <Annotation>::iterator prev;
 
-  while(annotation >> newTrackId >> newTopX >> newTopY >> newBottomX >> newBottomY >> newFrameNum >> newVisible >> newOccluded >> newGenerated >> newLabel) {
+  while(annotation >> newTrackId >> newTopX >> newTopY >> newBottomX >> newBottomY >> newFrameNum) {
 
     //create an instance of object and push it to the end of the list
-    Annotation i(newTrackId, newTopX, newTopY, newBottomX, newBottomY, newFrameNum, newVisible, newOccluded, newGenerated, newLabel);
+    Annotation i(newTrackId, newTopX, newTopY, newBottomX, newBottomY, newFrameNum);
 
     annotationList.push_back(i);
   }
