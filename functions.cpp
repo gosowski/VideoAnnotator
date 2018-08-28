@@ -12,8 +12,8 @@ void readCenterCoordinates(list <Annotation>::iterator itList, list <Annotation>
 
 //-----------------------------------------------------------------------------------------------------------------------------------------------------------
 
-void getLogs(int valX, int valY) {
-  cout<<"Center point values: ("<<valX<<","<<valY<<")"<<endl;
+void getLogs(int fr, float tX, float tY, float bX, float bY) {
+  std::cout<<fr<<" "<<tX<<" "<<tY<<" "<<bX<<" "<<bY<<"\n";
 }
 
 //-----------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -80,10 +80,10 @@ void drawRectangle(list <Annotation>::iterator itList, list <Annotation> annotat
   itList = annotations.begin();
   list <Annotation>::iterator prev;
   int trackId = 0;
-  int xTop = 0;
-  int yTop = 0;
-  int xBottom = 0;
-  int yBottom = 0;
+  float xTop = 0.0;
+  float yTop = 0.0;
+  float xBottom = 0.0;
+  float yBottom = 0.0;
   int frameNum = 0;
   bool frameOut = 0;
   int centerX = 0;
@@ -100,7 +100,6 @@ void drawRectangle(list <Annotation>::iterator itList, list <Annotation> annotat
     //read objects attr values
     while(checkFrameNum == (*itList).getFrameNum()) {
 
-      itList++;
 
       trackId = (*itList).getTrackId();
       xTop = (*itList).getTopX();
@@ -112,9 +111,8 @@ void drawRectangle(list <Annotation>::iterator itList, list <Annotation> annotat
 
       //if frame is visible draw a rectangle and text above it with speed
       //beetwen each frame
-
         
-      getLogs(centerX, centerY);
+      getLogs(trackId, xTop, yTop, xBottom, yBottom);
 
       rectangle(frame, Point(xTop, yTop), Point(xBottom, yBottom), Scalar(blue[trackId], green[trackId], red[trackId]), 1, 8, 0);
 
@@ -128,11 +126,11 @@ void drawRectangle(list <Annotation>::iterator itList, list <Annotation> annotat
       string imageTextY = to_string(speedY);
 
       putText(frame, imageTextX, Point(xTop+30, yTop-10), FONT_HERSHEY_SIMPLEX, 0.3, Scalar(0, 255, 0), 1);
-      putText(frame, imageTextY, Point(xTop-30, yTop-10), FONT_HERSHEY_SIMPLEX, 0.3, Scalar(0, 255, 0), 1);
-
-
+      putText(frame, imageTextY, Point(xTop-30, yTop-10), FONT_HERSHEY_SIMPLEX, 0.3, Scalar(0, 255, 0), 1);      
       
+      itList++;
     }
+    
     checkFrameNum++;    
 
     //break for loop if there is no frame left
