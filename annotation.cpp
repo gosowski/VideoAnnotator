@@ -18,9 +18,7 @@ Annotation::Annotation(int newTrackId, float newTopX, float newTopY, float newBo
   centerY = (newTopY + newBottomY)/2;
 }
 
-// Annotation::~Annotation() {
-//   cout<<"destruct"<<endl;
-// }
+Annotation::~Annotation() {}
 
 void Annotation::showAttr() {
   cout<<"trackId: "<<trackId<<endl;
