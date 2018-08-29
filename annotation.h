@@ -20,7 +20,7 @@ class Annotation {
 
   public:
     Annotation(int newTrackId, float newTopX, float newTopY, float newBottomX, float newBottomY, int newFrameNum, bool newVisible, bool newOccluded, bool newGenerated, string newLabel);
-    // ~Annotation();
+    ~Annotation();
 
     void showAttr();
 
