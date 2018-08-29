@@ -1,7 +1,6 @@
 #include <iostream>
 #include "functions.h"
-#include <list>
-#include <opencv2/opencv.hpp>
+
 
 void readCenterCoordinates(list <Annotation>::iterator itList, list <Annotation> annotations) {
 
@@ -20,21 +19,23 @@ void getLogs(int fr, float tX, float tY, float bX, float bY) {
 //-----------------------------------------------------------------------------------------------------------------------------------------------------------
 
 
-float speedMeasurement(list <Annotation>::iterator itList, list <Annotation> annotations, list <Annotation>::iterator prev, char axis) {
-  prev = itList;
+float speedMeasurement(list <Annotation>::iterator itList, list <Annotation> annotations, char axis) {
+  list <Annotation>::iterator prev = itList;
   prev--;
 
   float speed = 0.0;
 
   if((*itList).getFrameNum() > 0) {
-    while((*prev).getTrackId() != (*itList).getTrackId()) {
-      prev--;
+
+    if(axis == 'y' || axis == 'Y'){
+      speed = (*itList).getCenterY() - (*prev).getCenterY();
+      std::cout<<"Speed Y: "<<speed<<"\n";
+    } else {
       speed = (*itList).getCenterX() - (*prev).getCenterX();
-      if(axis == 'y' || axis == 'Y') {
-        speed = (*itList).getCenterY() - (*prev).getCenterY();
-      }
+      std::cout<<"Speed X: "<<speed<<"\n";
     }
   }
+  
   return speed;
 }
 
@@ -119,21 +120,8 @@ void drawRectangle(list <Annotation>::iterator itList, list <Annotation> annotat
       if(frameOut == 0) {
         
         getLogs(trackId, xTop, yTop, xBottom, yBottom);
-
         rectangle(frame, Point(xTop, yTop), Point(xBottom, yBottom), Scalar(blue[trackId], green[trackId], red[trackId]), 1, 8, 0);
-
-        float speedX = 0.0;
-        float speedY = 0.0;
-
-        speedX = fabs(speedMeasurement(itList, annotations, prev));
-        speedY = fabs(speedMeasurement(itList, annotations, prev, 'y'));
-
-        string imageTextX = to_string(speedX);
-        string imageTextY = to_string(speedY);
-
-        putText(frame, imageTextX, Point(xTop+30, yTop-10), FONT_HERSHEY_SIMPLEX, 0.3, Scalar(0, 255, 0), 1);
-        putText(frame, imageTextY, Point(xTop-30, yTop-10), FONT_HERSHEY_SIMPLEX, 0.3, Scalar(0, 255, 0), 1);
-
+        drawSpeed(frame, xTop, yTop, itList, annotations, 'y');
       }
     }
     checkFrameNum++;    
@@ -152,6 +140,8 @@ void drawRectangle(list <Annotation>::iterator itList, list <Annotation> annotat
     }
   }
 }
+
+//-----------------------------------------------------------------------------------------------------------------------------------------------------------
 
 void readWriteSpeed(list <Annotation>::iterator itList, list <Annotation> annotations, list <Annotation>::iterator prev) {
 
@@ -177,4 +167,21 @@ void readWriteSpeed(list <Annotation>::iterator itList, list <Annotation> annota
     }
   }
   speedFile.close();
+}
+
+//-----------------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+void drawSpeed(cv::Mat fr, float coordinateX, float coordinateY, list <Annotation>::iterator itList, list <Annotation> annotations, char axis) {
+  float speedX = 0.0;
+  float speedY = 0.0;
+
+  speedX = fabs(speedMeasurement(itList, annotations));
+  speedY = fabs(speedMeasurement(itList, annotations, 'y'));
+
+  string imageTextX = to_string(speedX);
+  string imageTextY = to_string(speedY);
+
+  putText(fr, imageTextX, cv::Point(coordinateX+30, coordinateY-10), cv::FONT_HERSHEY_SIMPLEX, 0.3, cv::Scalar(0, 255, 0), 1);
+  putText(fr, imageTextY, cv::Point(coordinateX-30, coordinateY-10), cv::FONT_HERSHEY_SIMPLEX, 0.3, cv::Scalar(0, 255, 0), 1);
 }
