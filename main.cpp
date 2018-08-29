@@ -52,7 +52,10 @@ int main(int argc, char* argv[]) {
 
   randomColor(&randomNumber, red, green, blue, objects);
   drawRectangle(it, annotationList, argv[2], blue, green, red);
-  // readCenterCoordinates(it, annotationList);
 
+  delete [] blue;
+  delete [] green;
+  delete [] red;
+  
   return 0;
 }

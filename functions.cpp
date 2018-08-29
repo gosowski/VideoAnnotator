@@ -3,37 +3,9 @@
 #include <list>
 #include <opencv2/opencv.hpp>
 
-void readCenterCoordinates(list <Annotation>::iterator itList, list <Annotation> annotations) {
-
-  for(itList = annotations.begin(); itList != annotations.end(); itList++) {
-    cout<<"Track ID "<<(*itList).getTrackId()<<" center coordinates are: ("<<(*itList).getCenterX()<<" , "<<(*itList).getCenterY()<<")"<<endl;
-  }
-}
-
-//-----------------------------------------------------------------------------------------------------------------------------------------------------------
 
 void getLogs(int fr, float tX, float tY, float bX, float bY) {
   std::cout<<fr<<" "<<tX<<" "<<tY<<" "<<bX<<" "<<bY<<"\n";
-}
-
-//-----------------------------------------------------------------------------------------------------------------------------------------------------------
-
-float speedMeasurement(list <Annotation>::iterator itList, list <Annotation> annotations, list <Annotation>::iterator prev, char axis) {
-  prev = itList;
-  prev--;
-
-  float speed = 0.0;
-
-  if((*itList).getFrameNum() > 0) {
-    while((*prev).getTrackId() != (*itList).getTrackId()) {
-      prev--;
-      speed = (*itList).getCenterX() - (*prev).getCenterX();
-      if(axis == 'y' || axis == 'Y') {
-        speed = (*itList).getCenterY() - (*prev).getCenterY();
-      }
-    }
-  }
-  return speed;
 }
 
 //-----------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -71,10 +43,8 @@ void randomColor(int (*randomNumber)(), int red[], int green[], int blue[], int 
 
 void drawRectangle(list <Annotation>::iterator itList, list <Annotation> annotations, string path, int blue[], int green[], int red[]) {
 
-  using namespace cv;
-
   // create video
-  VideoCapture video(path);
+  cv::VideoCapture video(path);
 
   //set iterator to the beginning of the list and create new list iterator
   itList = annotations.begin();
@@ -93,13 +63,12 @@ void drawRectangle(list <Annotation>::iterator itList, list <Annotation> annotat
 
   //read video
   for(;;) {
-    Mat frame;
+    cv::Mat frame;
 
     video >> frame;
 
     //read objects attr values
     while(checkFrameNum == (*itList).getFrameNum()) {
-
 
       trackId = (*itList).getTrackId();
       xTop = (*itList).getTopX();
@@ -114,19 +83,7 @@ void drawRectangle(list <Annotation>::iterator itList, list <Annotation> annotat
         
       getLogs(trackId, xTop, yTop, xBottom, yBottom);
 
-      rectangle(frame, Point(xTop, yTop), Point(xBottom, yBottom), Scalar(blue[trackId], green[trackId], red[trackId]), 1, 8, 0);
-
-      float speedX = 0.0;
-      float speedY = 0.0;
-
-      speedX = fabs(speedMeasurement(itList, annotations, prev));
-      speedY = fabs(speedMeasurement(itList, annotations, prev, 'y'));
-
-      string imageTextX = to_string(speedX);
-      string imageTextY = to_string(speedY);
-
-      putText(frame, imageTextX, Point(xTop+30, yTop-10), FONT_HERSHEY_SIMPLEX, 0.3, Scalar(0, 255, 0), 1);
-      putText(frame, imageTextY, Point(xTop-30, yTop-10), FONT_HERSHEY_SIMPLEX, 0.3, Scalar(0, 255, 0), 1);      
+      rectangle(frame, cv::Point(xTop, yTop), cv::Point(xBottom, yBottom), cv::Scalar(blue[trackId], green[trackId], red[trackId]), 1, 8, 0);  
       
       itList++;
     }
@@ -139,37 +96,12 @@ void drawRectangle(list <Annotation>::iterator itList, list <Annotation> annotat
       break;
     }
 
-    namedWindow("Frame", 1);
+    cv::namedWindow("Frame", 1);
     imshow("Frame", frame);
-    char c=(char)waitKey(0);
+    char c=(char)cv::waitKey(0);
     if(c==27) {
       break;
     }
   }
 }
 
-void readWriteSpeed(list <Annotation>::iterator itList, list <Annotation> annotations, list <Annotation>::iterator prev) {
-
-  fstream speedFile;
-  speedFile.open("/home/ubuntu-vm/Desktop/file.txt", ios::out | ios::trunc);
-
-  for(itList=annotations.begin(), prev=annotations.end(); itList != annotations.end(); prev=itList, ++itList ) {
-
-    float speedX = fabs((*itList).getCenterX() - (*prev).getCenterX());
-    float speedY = fabs((*itList).getCenterY() - (*prev).getCenterY());
-    int trackId = (*itList).getTrackId();
-    float topX = (*itList).getTopX();
-    float topY = (*itList).getTopY();
-    float bottomX = (*itList).getBottomX();
-    float bottomY = (*itList).getBottomY();
-
-    if((*itList).getFrameNum() > 0 && (*itList).getTrackId() == (*prev).getTrackId()) {
-
-      speedFile<<trackId<<" "<<topX<<" "<<topY<<" "<<bottomX<<" "<<bottomY<<" "<<speedX<<" "<<speedY<<endl;
-    } else {
-
-      speedFile<<trackId<<" "<<topX<<" "<<topY<<" "<<bottomX<<" "<<bottomY<<" 0 0 "<<endl;
-    }
-  }
-  speedFile.close();
-}
