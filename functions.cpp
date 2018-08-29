@@ -12,6 +12,14 @@ void readCenterCoordinates(list <Annotation>::iterator itList, list <Annotation>
 
 //-----------------------------------------------------------------------------------------------------------------------------------------------------------
 
+
+void getLogs(int fr, float tX, float tY, float bX, float bY) {
+  std::cout<<fr<<" "<<tX<<" "<<tY<<" "<<bX<<" "<<bY<<"\n";
+}
+
+//-----------------------------------------------------------------------------------------------------------------------------------------------------------
+
+
 float speedMeasurement(list <Annotation>::iterator itList, list <Annotation> annotations, list <Annotation>::iterator prev, char axis) {
   prev = itList;
   prev--;
@@ -109,6 +117,8 @@ void drawRectangle(list <Annotation>::iterator itList, list <Annotation> annotat
       //beetwen each frame
 
       if(frameOut == 0) {
+        
+        getLogs(trackId, xTop, yTop, xBottom, yBottom);
 
         rectangle(frame, Point(xTop, yTop), Point(xBottom, yBottom), Scalar(blue[trackId], green[trackId], red[trackId]), 1, 8, 0);
 
