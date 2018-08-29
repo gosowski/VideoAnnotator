@@ -4,8 +4,8 @@
 #include <opencv2/opencv.hpp>
 
 
-void getLogs(int fr, float tX, float tY, float bX, float bY) {
-  std::cout<<fr<<" "<<tX<<" "<<tY<<" "<<bX<<" "<<bY<<"\n";
+void getLogs(int id, float tX, float tY, float bX, float bY, int fr) {
+  std::cout<<id<<" "<<tX<<" "<<tY<<" "<<bX<<" "<<bY<<" "<<fr<<"\n";
 }
 
 //-----------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -81,7 +81,7 @@ void drawRectangle(list <Annotation>::iterator itList, list <Annotation> annotat
       //if frame is visible draw a rectangle and text above it with speed
       //beetwen each frame
         
-      getLogs(trackId, xTop, yTop, xBottom, yBottom);
+      getLogs(trackId, xTop, yTop, xBottom, yBottom, checkFrameNum);
 
       rectangle(frame, cv::Point(xTop, yTop), cv::Point(xBottom, yBottom), cv::Scalar(blue[trackId], green[trackId], red[trackId]), 1, 8, 0);  
       
