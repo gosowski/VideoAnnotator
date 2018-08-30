@@ -69,7 +69,9 @@ void drawRectangle(list <Annotation>::iterator &itList, list <Annotation> &annot
 
     //read objects attr values
     while(checkFrameNum == (*itList).getFrameNum()) {
-
+      
+      itList++;
+      
       trackId = (*itList).getTrackId();
       xTop = (*itList).getTopX();
       yTop = (*itList).getTopY();
@@ -80,12 +82,12 @@ void drawRectangle(list <Annotation>::iterator &itList, list <Annotation> &annot
 
       //if frame is visible draw a rectangle and text above it with speed
       //beetwen each frame
-        
-      getLogs(trackId, xTop, yTop, xBottom, yBottom, checkFrameNum);
 
-      rectangle(frame, cv::Point(xTop, yTop), cv::Point(xBottom, yBottom), cv::Scalar(blue[trackId], green[trackId], red[trackId]), 1, 8, 0);  
-      
-      itList++;
+      if(frameOut == 0) {
+
+        getLogs(trackId, xTop, yTop, xBottom, yBottom, checkFrameNum);
+        rectangle(frame, cv::Point(xTop, yTop), cv::Point(xBottom, yBottom), cv::Scalar(blue[trackId], green[trackId], red[trackId]), 1, 8, 0);  
+      }
     }
     
     checkFrameNum++;    
@@ -116,12 +118,14 @@ bool pushDataAndSort(std::list<Annotation> &myList, std::string path) {
     return 0;
   }
 
-  int trackId, frameNum;
-  float leftX, leftY, rightX, rightY;
+  int newTrackId, newFrameNum;
+  float newTopX, newTopY, newBottomX, newBottomY, newCenterX, newCenterY;
+  bool newVisible, newOccluded, newGenerated;
+  string newLabel;
 
   // read input file content, create objects with atrr values and push back to container
-  while(boundingBox>>trackId>>leftX>>leftY>>rightX>>rightY>>frameNum) {
-    Annotation i (trackId, leftX, leftY, rightX, rightY, frameNum);
+  while(boundingBox>>newTrackId>>newTopX>>newTopY>>newBottomX>>newBottomY>>newFrameNum>>newVisible>>newOccluded>>newGenerated >> newLabel) {
+    Annotation i(newTrackId, newTopX, newTopY, newBottomX, newBottomY, newFrameNum, newVisible, newOccluded, newGenerated, newLabel);
     myList.push_back(i);
   }
 
