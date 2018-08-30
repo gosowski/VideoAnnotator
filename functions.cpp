@@ -70,6 +70,8 @@ void drawRectangle(list <Annotation>::iterator &itList, list <Annotation> &annot
     //read objects attr values
     while(checkFrameNum == (*itList).getFrameNum()) {
 
+      itList++;
+      
       trackId = (*itList).getTrackId();
       xTop = (*itList).getTopX();
       yTop = (*itList).getTopY();
@@ -82,10 +84,7 @@ void drawRectangle(list <Annotation>::iterator &itList, list <Annotation> &annot
       //beetwen each frame
         
       getLogs(trackId, xTop, yTop, xBottom, yBottom, checkFrameNum);
-
       rectangle(frame, cv::Point(xTop, yTop), cv::Point(xBottom, yBottom), cv::Scalar(blue[trackId], green[trackId], red[trackId]), 1, 8, 0);  
-      
-      itList++;
     }
     
     checkFrameNum++;    
