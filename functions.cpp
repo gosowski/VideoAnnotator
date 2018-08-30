@@ -55,6 +55,7 @@ void drawRectangle(list <Annotation>::iterator &itList, list <Annotation> &annot
   float xBottom = 0.0;
   float yBottom = 0.0;
   int frameNum = 0;
+  int occluded = 0;
   bool frameOut = 0;
   int centerX = 0;
   int centerY = 0;
@@ -77,13 +78,15 @@ void drawRectangle(list <Annotation>::iterator &itList, list <Annotation> &annot
       yTop = (*itList).getTopY();
       xBottom = (*itList).getBottomX();
       yBottom = (*itList).getBottomY();
+      frameOut = (*itList).getVisible();
+      occluded = (*itList).getOccluded();
       centerX = (*itList).getCenterX();
       centerY = (*itList).getCenterY();
 
       //if frame is visible draw a rectangle and text above it with speed
       //beetwen each frame
 
-      if(frameOut == 0) {
+      if(frameOut == 0 && occluded == 0) {
 
         getLogs(trackId, xTop, yTop, xBottom, yBottom, checkFrameNum);
         rectangle(frame, cv::Point(xTop, yTop), cv::Point(xBottom, yBottom), cv::Scalar(blue[trackId], green[trackId], red[trackId]), 1, 8, 0);  
