@@ -17,7 +17,7 @@ int randomNumber() {
 
 //-----------------------------------------------------------------------------------------------------------------------------------------------------------
 
-int countNumberOfObjects(list <Annotation>::iterator itList, list <Annotation> annotations) {
+int countNumberOfObjects(list <Annotation>::iterator &itList, list <Annotation> &annotations) {
 
   itList = annotations.begin();
   int objCounter = 0;
@@ -41,7 +41,7 @@ void randomColor(int (*randomNumber)(), int red[], int green[], int blue[], int 
 
 //-----------------------------------------------------------------------------------------------------------------------------------------------------------
 
-void drawRectangle(list <Annotation>::iterator itList, list <Annotation> annotations, string path, int blue[], int green[], int red[]) {
+void drawRectangle(list <Annotation>::iterator &itList, list <Annotation> &annotations, string path, int blue[], int green[], int red[]) {
 
   // create video
   cv::VideoCapture video(path);
@@ -103,5 +103,32 @@ void drawRectangle(list <Annotation>::iterator itList, list <Annotation> annotat
       break;
     }
   }
+}
+
+//-----------------------------------------------------------------------------------------------------------------------------------------------------------
+
+bool pushDataAndSort(std::list<Annotation> &myList, std::string path) {
+  std::fstream boundingBox(path);
+
+  // if file don't exists/ return false
+  if(!boundingBox.is_open()) {
+    std::cout<<"Failed to open "<<path<<"\n";
+    return 0;
+  }
+
+  int trackId, frameNum;
+  float leftX, leftY, rightX, rightY;
+
+  // read input file content, create objects with atrr values and push back to container
+  while(boundingBox>>trackId>>leftX>>leftY>>rightX>>rightY>>frameNum) {
+    Annotation i (trackId, leftX, leftY, rightX, rightY, frameNum);
+    myList.push_back(i);
+  }
+
+  boundingBox.close();
+
+  // sort container by frame number
+  myList.sort();
+  return 1;
 }
 
