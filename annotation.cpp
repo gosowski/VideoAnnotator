@@ -1,9 +1,7 @@
 #include <iostream>
 #include "annotation.h"
 
-using namespace std;
-
-Annotation::Annotation(int newTrackId, float newTopX, float newTopY, float newBottomX, float newBottomY, int newFrameNum, bool newVisible, bool newOccluded, bool newGenerated, string newLabel) {
+Annotation::Annotation(int newTrackId, float newTopX, float newTopY, float newBottomX, float newBottomY, int newFrameNum, bool newVisible, bool newOccluded, bool newGenerated, string newLabel){
   trackId = newTrackId;
   topX = newTopX;
   topY = newTopY;
@@ -20,37 +18,9 @@ Annotation::Annotation(int newTrackId, float newTopX, float newTopY, float newBo
 
 Annotation::~Annotation() {}
 
-void Annotation::showAttr() {
-  cout<<"trackId: "<<trackId<<endl;
-  cout<<"top X coordinate: "<<topX<<endl;
-  cout<<"top Y coordinate: "<<topY<<endl;
-  cout<<"bottom X coordinate: "<<bottomX<<endl;
-  cout<<"bottom Y coordinate: "<<bottomY<<endl;
-  cout<<"frame number: "<<frameNum<<endl;
-  if(visible) {
-    cout<<"Frame visible"<<endl;
-  } else {
-    cout<<"Frame not visible"<<endl;
-  }
-}
-
 bool Annotation::operator < (Annotation &obj)const {
   return frameNum < obj.frameNum;
 }
-
-void Annotation::printAttrValues() {
-  cout<<"trackId: "<<trackId<<endl;
-  cout<<"Frame number: "<<frameNum<<endl;
-  cout<<"--------------"<<endl;
-}
-
-//setter definition
-// void setAttributes(int newTrackId) {
-//   int trackId = newTrackId;
-// }
-
-
-//getters definitions
 
 int Annotation::getTrackId() {
   return trackId;

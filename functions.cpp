@@ -3,39 +3,9 @@
 #include <list>
 #include <opencv2/opencv.hpp>
 
-void readCenterCoordinates(list <Annotation>::iterator itList, list <Annotation> annotations) {
 
-  for(itList = annotations.begin(); itList != annotations.end(); itList++) {
-    cout<<"Track ID "<<(*itList).getTrackId()<<" center coordinates are: ("<<(*itList).getCenterX()<<" , "<<(*itList).getCenterY()<<")"<<endl;
-  }
-}
-
-//-----------------------------------------------------------------------------------------------------------------------------------------------------------
-
-
-void getLogs(int fr, float tX, float tY, float bX, float bY) {
-  std::cout<<fr<<" "<<tX<<" "<<tY<<" "<<bX<<" "<<bY<<"\n";
-}
-
-//-----------------------------------------------------------------------------------------------------------------------------------------------------------
-
-
-float speedMeasurement(list <Annotation>::iterator itList, list <Annotation> annotations, list <Annotation>::iterator prev, char axis) {
-  prev = itList;
-  prev--;
-
-  float speed = 0.0;
-
-  if((*itList).getFrameNum() > 0) {
-    while((*prev).getTrackId() != (*itList).getTrackId()) {
-      prev--;
-      speed = (*itList).getCenterX() - (*prev).getCenterX();
-      if(axis == 'y' || axis == 'Y') {
-        speed = (*itList).getCenterY() - (*prev).getCenterY();
-      }
-    }
-  }
-  return speed;
+void getLogs(int id, float tX, float tY, float bX, float bY, int fr) {
+  std::cout<<id<<" "<<tX<<" "<<tY<<" "<<bX<<" "<<bY<<" "<<fr<<"\n";
 }
 
 //-----------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -47,7 +17,7 @@ int randomNumber() {
 
 //-----------------------------------------------------------------------------------------------------------------------------------------------------------
 
-int countNumberOfObjects(list <Annotation>::iterator itList, list <Annotation> annotations) {
+int countNumberOfObjects(list <Annotation>::iterator &itList, list <Annotation> &annotations) {
 
   itList = annotations.begin();
   int objCounter = 0;
@@ -71,22 +41,21 @@ void randomColor(int (*randomNumber)(), int red[], int green[], int blue[], int 
 
 //-----------------------------------------------------------------------------------------------------------------------------------------------------------
 
-void drawRectangle(list <Annotation>::iterator itList, list <Annotation> annotations, string path, int blue[], int green[], int red[]) {
-
-  using namespace cv;
+void drawRectangle(list <Annotation>::iterator &itList, list <Annotation> &annotations, string path, int blue[], int green[], int red[]) {
 
   // create video
-  VideoCapture video(path);
+  cv::VideoCapture video(path);
 
   //set iterator to the beginning of the list and create new list iterator
   itList = annotations.begin();
   list <Annotation>::iterator prev;
   int trackId = 0;
-  int xTop = 0;
-  int yTop = 0;
-  int xBottom = 0;
-  int yBottom = 0;
+  float xTop = 0.0;
+  float yTop = 0.0;
+  float xBottom = 0.0;
+  float yBottom = 0.0;
   int frameNum = 0;
+  int occluded = 0;
   bool frameOut = 0;
   int centerX = 0;
   int centerY = 0;
@@ -95,47 +64,35 @@ void drawRectangle(list <Annotation>::iterator itList, list <Annotation> annotat
 
   //read video
   for(;;) {
-    Mat frame;
+    cv::Mat frame;
 
     video >> frame;
 
     //read objects attr values
     while(checkFrameNum == (*itList).getFrameNum()) {
-
+      
       itList++;
-
+      
       trackId = (*itList).getTrackId();
       xTop = (*itList).getTopX();
       yTop = (*itList).getTopY();
       xBottom = (*itList).getBottomX();
       yBottom = (*itList).getBottomY();
       frameOut = (*itList).getVisible();
+      occluded = (*itList).getOccluded();
       centerX = (*itList).getCenterX();
       centerY = (*itList).getCenterY();
 
       //if frame is visible draw a rectangle and text above it with speed
       //beetwen each frame
 
-      if(frameOut == 0) {
-        
-        getLogs(trackId, xTop, yTop, xBottom, yBottom);
+      if(frameOut == 0 && occluded == 0) {
 
-        rectangle(frame, Point(xTop, yTop), Point(xBottom, yBottom), Scalar(blue[trackId], green[trackId], red[trackId]), 1, 8, 0);
-
-        float speedX = 0.0;
-        float speedY = 0.0;
-
-        speedX = fabs(speedMeasurement(itList, annotations, prev));
-        speedY = fabs(speedMeasurement(itList, annotations, prev, 'y'));
-
-        string imageTextX = to_string(speedX);
-        string imageTextY = to_string(speedY);
-
-        putText(frame, imageTextX, Point(xTop+30, yTop-10), FONT_HERSHEY_SIMPLEX, 0.3, Scalar(0, 255, 0), 1);
-        putText(frame, imageTextY, Point(xTop-30, yTop-10), FONT_HERSHEY_SIMPLEX, 0.3, Scalar(0, 255, 0), 1);
-
+        getLogs(trackId, xTop, yTop, xBottom, yBottom, checkFrameNum);
+        rectangle(frame, cv::Point(xTop, yTop), cv::Point(xBottom, yBottom), cv::Scalar(blue[trackId], green[trackId], red[trackId]), 1, 8, 0);  
       }
     }
+    
     checkFrameNum++;    
 
     //break for loop if there is no frame left
@@ -144,37 +101,41 @@ void drawRectangle(list <Annotation>::iterator itList, list <Annotation> annotat
       break;
     }
 
-    namedWindow("Frame", 1);
+    cv::namedWindow("Frame", 1);
     imshow("Frame", frame);
-    char c=(char)waitKey(0);
+    char c=(char)cv::waitKey(0);
     if(c==27) {
       break;
     }
   }
 }
 
-void readWriteSpeed(list <Annotation>::iterator itList, list <Annotation> annotations, list <Annotation>::iterator prev) {
+//-----------------------------------------------------------------------------------------------------------------------------------------------------------
 
-  fstream speedFile;
-  speedFile.open("/home/ubuntu-vm/Desktop/file.txt", ios::out | ios::trunc);
+bool pushDataAndSort(std::list<Annotation> &myList, std::string path) {
+  std::fstream boundingBox(path);
 
-  for(itList=annotations.begin(), prev=annotations.end(); itList != annotations.end(); prev=itList, ++itList ) {
-
-    float speedX = fabs((*itList).getCenterX() - (*prev).getCenterX());
-    float speedY = fabs((*itList).getCenterY() - (*prev).getCenterY());
-    int trackId = (*itList).getTrackId();
-    float topX = (*itList).getTopX();
-    float topY = (*itList).getTopY();
-    float bottomX = (*itList).getBottomX();
-    float bottomY = (*itList).getBottomY();
-
-    if((*itList).getFrameNum() > 0 && (*itList).getTrackId() == (*prev).getTrackId()) {
-
-      speedFile<<trackId<<" "<<topX<<" "<<topY<<" "<<bottomX<<" "<<bottomY<<" "<<speedX<<" "<<speedY<<endl;
-    } else {
-
-      speedFile<<trackId<<" "<<topX<<" "<<topY<<" "<<bottomX<<" "<<bottomY<<" 0 0 "<<endl;
-    }
+  // if file don't exists/ return false
+  if(!boundingBox.is_open()) {
+    std::cout<<"Failed to open "<<path<<"\n";
+    return 0;
   }
-  speedFile.close();
+
+  int newTrackId, newFrameNum;
+  float newTopX, newTopY, newBottomX, newBottomY, newCenterX, newCenterY;
+  bool newVisible, newOccluded, newGenerated;
+  string newLabel;
+
+  // read input file content, create objects with atrr values and push back to container
+  while(boundingBox>>newTrackId>>newTopX>>newTopY>>newBottomX>>newBottomY>>newFrameNum>>newVisible>>newOccluded>>newGenerated >> newLabel) {
+    Annotation i(newTrackId, newTopX, newTopY, newBottomX, newBottomY, newFrameNum, newVisible, newOccluded, newGenerated, newLabel);
+    myList.push_back(i);
+  }
+
+  boundingBox.close();
+
+  // sort container by frame number
+  myList.sort();
+  return 1;
 }
+

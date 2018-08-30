@@ -21,27 +21,18 @@ class Annotation {
   public:
     Annotation(int newTrackId, float newTopX, float newTopY, float newBottomX, float newBottomY, int newFrameNum, bool newVisible, bool newOccluded, bool newGenerated, string newLabel);
     ~Annotation();
-
-    void showAttr();
-
     bool operator < (Annotation &obj)const ;
 
-    void printAttrValues();
-
-  //setter declaration
-  // void setAttributes(int newTrackId);
-
-  // //getters declarations
-  int getTrackId();
-  float getTopX();
-  float getTopY();
-  float getBottomX();
-  float getBottomY();
-  int getFrameNum();
-  bool getVisible();
-  float getCenterX();
-  float getCenterY();
-  bool getOccluded();
-  bool getGenerated();
-  string getLabel();
+    int getTrackId();
+    float getTopX();
+    float getTopY();
+    float getBottomX();
+    float getBottomY();
+    int getFrameNum();
+    bool getVisible();
+    float getCenterX();
+    float getCenterY();
+    bool getOccluded();
+    bool getGenerated();
+    string getLabel();
 };
